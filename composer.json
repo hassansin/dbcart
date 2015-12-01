@@ -1,6 +1,9 @@
 {
     "name": "hassansin/dbcart",
-    "description": "Shopping Cart library for Laravel 5 that uses database instead of sessions to store carts.",
+    "description": "Shopping Cart library for Laravel 5 that uses Database instead of Sessions",
+    "keywords": ["laravel", "cart", "database", "laravel5", "shopping cart"],
+    "homepage": "https://github.com/hassansin/dbcart",
+    "license": "MIT",
     "authors": [
         {
             "name": "hassansin",
