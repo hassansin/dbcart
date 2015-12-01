@@ -1,6 +1,6 @@
 {
-    "name": "hassansin/cart",
-    "description": "Database based Shopping Cart",
+    "name": "hassansin/DBCart",
+    "description": "Shopping Cart library for Laravel 5 that uses database instead of sessions to store carts.",
     "authors": [
         {
             "name": "hassansin",
