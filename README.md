@@ -207,10 +207,15 @@ Follow these steps to extend the cart model:
         }
         
     }
- 2. Update `cart_model` in `config/cart.php`
+2. Update `cart_model` in `config/cart.php`
     ```php
     'cart_model' => App\Cart::class,
     ```
- 3. Now use eithe `App::make('cart')` or your new model class
+3. Now use either `App::make('cart')` or your new model class:
+    ```php
+    use App\Cart;
+    //...
+    $cart = Cart::current();    
+    ```
 
-You can also follow the above steps and create your own cart line model by extending `Hassansin\DBCart\Models\CartLine`. Be sure to update `config/cart.php` to reflect your changes.
+You can also follow the above steps and create your own `CartLine` model by extending `Hassansin\DBCart\Models\CartLine`. Be sure to update `config/cart.php` to reflect your changes.
