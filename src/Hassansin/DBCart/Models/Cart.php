@@ -112,7 +112,7 @@ class Cart extends Model
                 //both user cart and session cart exists
                 case !is_null($user_cart) && !is_null($session_cart):
                     $cart = $user_cart;
-                    //copy items from session cart to user cart
+                    //move items from session cart to user cart
                     $session_cart->items()->update(['buyorder_id' => $user_cart->id] );                    
                     //delete session cart
                     $session_cart->delete();
@@ -155,11 +155,14 @@ class Cart extends Model
     }
 
     /**
-     * Copy cart items to another cart
+     * Copy cart items to another cart [TODO]
      *
      */
-    public function copyTo(Cart $cart){
-        $this->items()->update([ $this->items()->getForeignKey() => $cart->{$cart->primaryKey}] );
+    public function copyItemsTo(Cart $cart){
+        if(!$cart->exists){
+            $cart->save();
+        }
+        //$this->items()->update([ $this->items()->getForeignKey() => $cart->{$cart->primaryKey}] );
     }
 
     /**

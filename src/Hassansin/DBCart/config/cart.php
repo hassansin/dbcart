@@ -54,29 +54,22 @@ return [
     | Auto Expire a cart
     |--------------------------------------------------------------------------
     |
-    | Enable or disable auto expire a cart
-    |
+    | Enable or disable auto expire a cart. Only application for session carts.
+    | When set to true, cart status will be set to 'expired' after session 'lifetime' 
+    | 
+    | Needs Laravel task scheduler to be started: http://laravel.com/docs/master/scheduling
     */
 
     'expire_cart' => true,
 
     /*
     |--------------------------------------------------------------------------
-    | Expire time
-    |--------------------------------------------------------------------------
-    |
-    | Days after which a cart will be expired and deleted. Only if 'expire_cart' is true.
-    |
-    */
-    'expire_after' => 7,
-
-    /*
-    |--------------------------------------------------------------------------
     | Delete Expired Cart
     |--------------------------------------------------------------------------
     |
-    | Delete expired carts
+    | Delete expired carts. If set to true, all expired carts will be deleted.
     |
+    | Needs Laravel task scheduler to be started: http://laravel.com/docs/master/scheduling
     */
     'delete_expired' => true, 
 
