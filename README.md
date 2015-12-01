@@ -19,7 +19,7 @@ Shopping Cart library for Laravel 5 that uses database instead of sessions to st
 
     ```js
     "require": {
-        "hassansin/DBCart": "dev-master"
+        "hassansin/dbcart": "dev-master"
     }
     ```
 

@@ -1,5 +1,5 @@
 {
-    "name": "hassansin/DBCart",
+    "name": "hassansin/dbcart",
     "description": "Shopping Cart library for Laravel 5 that uses database instead of sessions to store carts.",
     "authors": [
         {
