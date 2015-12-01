@@ -207,6 +207,7 @@ Follow these steps to extend the cart model:
         }
         
     }
+    ```
 2. Update `cart_model` in `config/cart.php`
   
     ```php
