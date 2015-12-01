@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Hassansin\\Cart": "src/"
+            "Hassansin\\DBCart": "src/"
         }
     },
     "minimum-stability": "dev"
