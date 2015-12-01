@@ -214,6 +214,7 @@ Follow these steps to extend the cart model:
     'cart_model' => App\Cart::class,
     ```
 3. Now use either `App::make('cart')` or your new model class:
+
     ```php
     use App\Cart;
     //...
