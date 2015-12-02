@@ -29,6 +29,14 @@ class CartLine extends Model
      */
     protected $hidden = [];
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'unit_price' => 'float',
+    ];
 
     public function product()
     {
@@ -102,7 +110,7 @@ class CartLine extends Model
             $cart = $line->getCartInstance() ?: $line->cart;            
             $cart->resetRelations();
 
-            $cart->total_price = number_format($cart->total_price + $line->getPrice(), 2);
+            $cart->total_price = $cart->total_price + $line->getPrice();
             $cart->item_count = $cart->item_count + $line->quantity;
             $cart->save();
         });
@@ -112,7 +120,7 @@ class CartLine extends Model
             $cart = $line->getCartInstance() ?: $line->cart;    
             $cart->resetRelations();
 
-            $cart->total_price = number_format( $cart->total_price - $line->getOriginalPrice() + $line->getPrice(), 2 );
+            $cart->total_price = $cart->total_price - $line->getOriginalPrice() + $line->getPrice();
             $cart->item_count = $cart->item_count - $line->getOriginalQuantity() + $line->quantity;
             $cart->save();
         });
@@ -122,7 +130,7 @@ class CartLine extends Model
             $cart = $line->getCartInstance() ?: $line->cart;    
             $cart->resetRelations();
 
-            $cart->total_price = number_format($cart->total_price - $line->getPrice(), 2);
+            $cart->total_price = $cart->total_price - $line->getPrice();
             $cart->item_count = $cart->item_count - $line->quantity;
             $cart->save();
         });

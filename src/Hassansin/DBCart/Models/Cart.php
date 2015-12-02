@@ -30,6 +30,14 @@ class Cart extends Model
      */
     protected $dates = ['placed_at', 'completed_at'];
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'total_price' => 'float',
+    ];
 
     public function user()
     {
@@ -68,6 +76,10 @@ class Cart extends Model
     public function scopeSession($query, $session_id = null){
         $session_id = $session_id ?: app('request')->session()->getId();
         return $query->where('session', $session_id);
+    }
+
+    public function setTotalPriceAttribute($value){
+        $this->attributes['total_price'] = number_format($value, 2) > 0 ? number_format($value, 2) : 0;        
     }
 
     /**
