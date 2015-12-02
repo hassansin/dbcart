@@ -187,6 +187,7 @@ $pending_sales_carts = Cart::instance('sales')->pending()->get();
 
 ```php
 $cart_user = $cart->user; // get cart user
+$product = $item->product; // get associated product for a cart item
 ```
 
 
