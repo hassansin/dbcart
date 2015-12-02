@@ -47,7 +47,22 @@ return [
     |
     */
 
-    'product_model' => '', // App\Product::class
+    'product_model' => App\Product::class,
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Save on demand
+    |--------------------------------------------------------------------------
+    |
+    | When set to true, if a cart doesn't exist on database you'll be given a
+    | new instance of cart object. You have to manually save the cart to DB by
+    | $cart->save() . Useful if you want to avoid create unnecessary empty carts     
+    | in database.
+    |
+    */
+
+    'save_on_demand' => false,
 
     /*
     |--------------------------------------------------------------------------

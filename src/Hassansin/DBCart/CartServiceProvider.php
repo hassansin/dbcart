@@ -4,16 +4,6 @@ namespace Hassansin\DBCart;
 
 use Illuminate\Support\ServiceProvider;
 
-class Singleton {
-
-	protected $instances = [];
-
-	public static function get(){
-
-	}
-
-}
-
 class CartServiceProvider extends ServiceProvider {
 
 	/**
@@ -72,6 +62,6 @@ class CartServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return ['cart'];
+        return ['cart', 'cart_instances'];
     }
 }

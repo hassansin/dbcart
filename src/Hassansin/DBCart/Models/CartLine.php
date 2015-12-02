@@ -77,6 +77,18 @@ class CartLine extends Model
         return number_format($this->getOriginalQuantity() * $this->getOriginalUnitPrice(), 2) ;
     }
 
+    public function getCartInstance(){
+        $carts = app('cart_instances');
+        $instance_name = null;
+        foreach ($carts as $name => $cart) {
+            if($cart->id === $this->cart_id){
+                $instance_name = $name;
+                break;
+            }
+        }
+        return is_null($instance_name )? $instance_name : app('cart', ['name' => $instance_name]);
+    }
+
     /**
      * The "booting" method of the model.
      *
@@ -87,7 +99,7 @@ class CartLine extends Model
 
         //when an item is created
         static::created(function($line){
-            $cart = app('cart');            
+            $cart = $line->getCartInstance() ?: $line->cart;            
             $cart->resetRelations();
 
             $cart->total_price = number_format($cart->total_price + $line->getPrice(), 2);
@@ -97,17 +109,17 @@ class CartLine extends Model
 
         //when an item is updated
         static::updated(function($line){
-            $cart = app('cart');
+            $cart = $line->getCartInstance() ?: $line->cart;    
             $cart->resetRelations();
 
-            $cart->total_price = number_format($cart->total_price - $line->getOriginalPrice() + $line->getPrice(), 2);
-            $cart->item_count = $cart->item_count - $line->getOriginalQuantity() +$line->quantity;
+            $cart->total_price = number_format( $cart->total_price - $line->getOriginalPrice() + $line->getPrice(), 2 );
+            $cart->item_count = $cart->item_count - $line->getOriginalQuantity() + $line->quantity;
             $cart->save();
         });
 
         //when item deleted
         static::deleted(function($line){            
-            $cart = app('cart');
+            $cart = $line->getCartInstance() ?: $line->cart;    
             $cart->resetRelations();
 
             $cart->total_price = number_format($cart->total_price - $line->getPrice(), 2);

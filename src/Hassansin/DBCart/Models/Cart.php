@@ -60,14 +60,24 @@ class Cart extends Model
         return $query->where('name',  $instance_name);
     }
 
+    public function scopeUser($query, $user_id = null){
+        $user_id = $user_id ?: Auth::id();
+        return $query->where('user_id', $user_id);
+    }
+    public function scopeSession($query, $session_id = null){
+
+        return is_null($session_id)? $query : $query->where('session', $session_id);
+    }
+
     /**
      * Get the current cart instance
      *
      * @param  string  $instance_name
      * @return mixed
      */
-    public static function current($instance_name = 'default'){
-        return static::init($instance_name);       
+    public static function current($instance_name = 'default', $save_on_demand = null){
+        $save_on_demand = is_null($save_on_demand)? config('cart.save_on_demand', true): $save_on_demand;
+        return static::init($instance_name, $save_on_demand);       
     }
 
     /**
@@ -77,26 +87,35 @@ class Cart extends Model
      * @param  string  $instance_name
      * @return mixed
      */
-    public static function init($instance_name){
-        $request = \App::make('request');
+    public static function init($instance_name, $save_on_demand){        
+
+        $request = app('request');
         $sessionId = $request->session()->getId();
         
         //if user logged in
         if(Auth::check()){
-            $userId = \Auth::id();
+            $userId = Auth::id();
 
             //get active cart for current user
-            $user_cart = static::active()->where('name', $instance_name)->where('user_id', $userId)->first();
-            $session_cart = is_null($request->session()->get('cart_id'))? null: static::active()->where('name', $instance_name)->where('session', $request->session()->get('cart_id'))->first();
+            $user_cart = static::active()->user()->where('name', $instance_name)->first();
+
+            //check if session cart exists
+            $session_cart_id = $request->session()->get('cart_'.$instance_name);
+            $session_cart = is_null($session_cart_id)? null: static::active()->session($session_cart_id)->where('name', $instance_name)->first();
 
             switch (true) {
                 //no user cart or session cart
-                case is_null($user_cart) && is_null($session_cart) && !$check_only:
-                    $cart = static::create(array(
+                case is_null($user_cart) && is_null($session_cart):
+                    $attributes = array(
                         'user_id' => $userId,
                         'name' => $instance_name,
                         'status' => 'active'
-                    ));
+                    );
+                    if($save_on_demand)
+                        $cart = new static($attributes);                        
+                    else
+                        $cart = static::create($attributes);
+
                     break;
                 //only user cart
                 case !is_null($user_cart) && is_null($session_cart):
@@ -112,9 +131,12 @@ class Cart extends Model
                 //both user cart and session cart exists
                 case !is_null($user_cart) && !is_null($session_cart):
                     $cart = $user_cart;
-                    //move items from session cart to user cart
-                    $session_cart->items()->update(['buyorder_id' => $user_cart->id] );                    
+                    //move items from session cart to user cart                    
+                    $session_cart->items()->update(['cart_id' => $user_cart->id] );                    
+                    $cart->item_count += $session_cart->item_count;
+                    $cart->total_price += $session_cart->total_price;
                     //delete session cart
+                    $cart->save();
                     $session_cart->delete();
                     break;
                 default:
@@ -122,20 +144,24 @@ class Cart extends Model
                     break;
             }            
             //no longer need it.
-            $request->session()->forget('cart_id');
+            $request->session()->forget('cart_'.$instance_name);
             return $cart;      
         } 
         //guest user, create cart with session id
         else{
-            $cart = static::firstOrCreate(array(
+            $attributes = array(
                 'session' => $sessionId,
                 'name' => $instance_name,
                 'status' => 'active'
-            )); 
+            );
+            $cart = static::firstOrNew($attributes);
+
+            if(!$save_on_demand)
+                $cart->save();
 
             //save current session id, since upon login session id will be regenerated
             //we will use this id to get back the cart before login
-            $request->session()->put('cart_id', $sessionId);
+            $request->session()->put('cart_'.$instance_name, $sessionId);
             return $cart;
         }
     }
