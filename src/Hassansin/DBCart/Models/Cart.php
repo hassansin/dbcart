@@ -39,13 +39,19 @@ class Cart extends Model
         'total_price' => 'float',
     ];
 
+    /**
+    * Get the user that owns the cart.
+    */
     public function user()
     {
-        return $this->belongsTo(config('cart.user_model'));
+        return $this->belongsTo(config('cart.user_model'), config('cart.user_model_user_id', null));
     }
 
+    /**
+    * Get the items for the cart.
+    */
     public function items(){
-        return $this->hasMany(config('cart.cart_line_model'));
+        return $this->hasMany(config('cart.cart_line_model'), config('cart.cart_line_model_cart_id', null));
     }
 
     public function scopePending($query){

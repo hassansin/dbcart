@@ -57,8 +57,8 @@ return [
     |
     | When set to true, if a cart doesn't exist on database you'll be given a
     | new instance of cart object. You have to manually save the cart to DB by
-    | $cart->save() . Useful if you want to avoid create unnecessary empty carts     
-    | in database.
+    | $cart->save() . Useful if you want to avoid creating unnecessary empty carts     
+    | in database. But be sure to save cart before adding items
     |
     */
 

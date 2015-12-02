@@ -38,14 +38,20 @@ class CartLine extends Model
         'unit_price' => 'float',
     ];
 
+    /**
+    * Get the product record associated with the item.
+    */
     public function product()
     {
-        return $this->belongsTo(config('cart.product_model'));
+        return $this->belongsTo(config('cart.product_model'), 'product_id');
     }
 
+    /**
+    * Get the cart that owns the item.
+    */
     public function cart()
     {
-        return $this->belongsTo(config('cart.cart_model'));
+        return $this->belongsTo(config('cart.cart_model'), 'cart_id');
     }
 
     /*
