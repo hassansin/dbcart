@@ -72,7 +72,7 @@ use Hassansin\DBCart\Models\Cart;
 //...
 $cart = Cart::current();
 ```
-With singleton cart, the cart object will be available globally throughout your app (e.g. controllers/models/views/view composers etc) for a single request. Also as you manipulate cart items, `$cart->items_count` and `$cart->total_price` would get updated.
+The idea of using singleton cart is that the cart object will be available globally throughout your app (e.g. controllers/models/views/view composers etc) for a single request. Also as you manipulate cart items, `$cart->item_count` and `$cart->total_price` would get updated.
 
 #### Add an Item: `$cart->addItem($attributes)`
 

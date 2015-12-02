@@ -64,9 +64,10 @@ class Cart extends Model
         $user_id = $user_id ?: Auth::id();
         return $query->where('user_id', $user_id);
     }
-    public function scopeSession($query, $session_id = null){
 
-        return is_null($session_id)? $query : $query->where('session', $session_id);
+    public function scopeSession($query, $session_id = null){
+        $session_id = $session_id ?: app('request')->session()->getId();
+        return $query->where('session', $session_id);
     }
 
     /**
@@ -76,14 +77,13 @@ class Cart extends Model
      * @return mixed
      */
     public static function current($instance_name = 'default', $save_on_demand = null){
-        $save_on_demand = is_null($save_on_demand)? config('cart.save_on_demand', true): $save_on_demand;
+        $save_on_demand = is_null($save_on_demand)? config('cart.save_on_demand', false): $save_on_demand;
         return static::init($instance_name, $save_on_demand);       
     }
 
     /**
-     * Get the current cart instance
      * Initialize the cart
-     * If no cart found for current user/session, then creates a new empty cart
+     * 
      * @param  string  $instance_name
      * @return mixed
      */

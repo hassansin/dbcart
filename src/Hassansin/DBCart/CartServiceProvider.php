@@ -27,6 +27,7 @@ class CartServiceProvider extends ServiceProvider {
 			$instance_name = !empty($params['name']) ? $params['name'] : 'default';
 			$cart_instances = $app['cart_instances'];
 
+			//implement singleton carts
 			if(empty($cart_instances[$instance_name])){
 				$model = config('cart.cart_model');	
 				$cart_instances[$instance_name] = $model::current($instance_name);				
@@ -34,12 +35,6 @@ class CartServiceProvider extends ServiceProvider {
 			}
 			return $app['cart_instances'][$instance_name];			
 		});
-
-		/*$this->app->singleton('cart', function($app, $params){
-			$instance_name = !empty($params['name']) ? $params['name'] : 'default';
-			$model = config('cart.cart_model');			
-			return $model::current($instance_name);
-		});*/
 		
 		$this->publishes([
 	        __DIR__.'/config/cart.php' => config_path('cart.php'),
