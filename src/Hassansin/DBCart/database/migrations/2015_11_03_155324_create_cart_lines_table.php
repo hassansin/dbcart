@@ -20,7 +20,9 @@ class CreateCartLinesTable extends Migration
             $table->decimal('unit_price');
 
             $table->timestamps();
-            $table->foreign('cart_id')->references('id')->on('cart');
+            $table->foreign('cart_id')->references('id')
+                ->on('cart')
+                ->onDelete('cascade');
         });
     }
 

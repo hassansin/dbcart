@@ -9,9 +9,9 @@ Shopping Cart library for Laravel 5 that uses database instead of sessions to st
 * Cart of logged in users
 * Guest Cart is merged with User Cart when logged in
 * Singleton Cart instance to avoid unnecessary database queries. But also possible to avoid signleton cart if needed.
-* Built on top of Eloquent Model, so easily extendable and any eloquent method can be used.
+* Built on top of Eloquent Model, so easily extendable and all eloquent methods can be used.
 * Multiple instances of cart
-* Schedule expired carts for deletion [TODO]
+* Schedule expired carts for deletion
 
 ## Installation
 
@@ -159,7 +159,7 @@ $expired_carts = Cart::expired()->get();
 $pending_carts = Cart::pending()->get();
 $completed_carts = Cart::complete()->get();
 ```
-#### Cart Instances
+#### Working with Multiple Cart Instances
 
 By default, cart instances are named as `default`. You can load other instances by providing a name:
 
@@ -184,6 +184,16 @@ To get carts other than `default`:
 $pending_sales_carts = Cart::instance('sales')->pending()->get();
 ```
 
+#### Delete Expired Carts:
+
+The guest carts depend on the session lifetime. They are valid as long as the session is not expired. You can increase session lifetime in `config/session.php` to increase cart lifetime. When a session expires, a new cart instance will be created in database and the old one will no longer be used. Over time, these expired carts could pile-up in database. 
+
+Laravel Task Scheduler comes to the rescue. To enable scheduler just add following to the crontab in your server:
+
+    * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1 
+
+The module would run every hour and check of expired carts and delete them. This won't affect the carts for loggedin users.
+
 #### Other features:
 
 ```php
@@ -193,9 +203,9 @@ $product = $item->product; // get associated product for a cart item
 
 
 ## Extending Cart Model
-Follow these steps to extend the cart model:
+It's easy to extend DBCart. You can extend base DBCart model and add your own methods or columns. Follow these steps to extend the cart model:
 
-1. Create a model by extending `Hassansin\DBCart\Models\CartLine``:
+1. Create a model by extending `Hassansin\DBCart\Models\Cart`:
     ```php    
     namespace App;
         
@@ -204,8 +214,13 @@ Follow these steps to extend the cart model:
     class Cart extends BaseCart
     {
         //override or add your methods here ...
-        public function setTotalPriceAttribute(){
-            return $this->total_price;
+
+        public function getSubTotalAttribute(){
+            return $this->attributes['total_price'];
+        }
+        public function getGrandTotalAttribute(){
+            //taking discount, tax etc. into account            
+            return $this->sub_total - $this->discount;
         }
         
     }
@@ -215,12 +230,10 @@ Follow these steps to extend the cart model:
     ```php
     'cart_model' => App\Cart::class,
     ```
-3. Now use either `App::make('cart')` or your new model class:
+3. That's it, you can now load the cart as usual:
 
     ```php
-    use App\Cart;
-    //...
-    $cart = Cart::current();    
+    $cart = App::make('cart');
     ```
 
 You can also follow the above steps and create your own `CartLine` model by extending `Hassansin\DBCart\Models\CartLine`. Be sure to update `config/cart.php` to reflect your changes.

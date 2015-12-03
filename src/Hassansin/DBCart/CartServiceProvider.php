@@ -13,6 +13,16 @@ class CartServiceProvider extends ServiceProvider {
      */
     protected $defer = true;
 
+    /**
+     * Perform post-registration booting of services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+    	//   
+    }
+
 	/**
 	 * Register the service provider.
 	 *
@@ -21,7 +31,8 @@ class CartServiceProvider extends ServiceProvider {
 	public function register()
 	{		
 
-		$this->app->instance('cart_instances', [] );
+		$this->registerScheduler();
+		$this->app['cart_instances'] =  [] ;
 
 		$this->app->bind('cart', function($app, $params){
 			$instance_name = !empty($params['name']) ? $params['name'] : 'default';
@@ -47,6 +58,17 @@ class CartServiceProvider extends ServiceProvider {
 	    $this->mergeConfigFrom(
 	        __DIR__.'/config/cart.php', 'cart'
 	    );
+	}
+
+	protected function registerScheduler(){
+		$schedule = $this->app['Illuminate\Console\Scheduling\Schedule'];
+		$events = $this->app['events'];
+		$schedule_frequency = config('cart.schedule_frequency', 'hourly');
+
+        $events->listen('artisan.start', function ($artisan) use($schedule, $schedule_frequency){
+        	$artisan->resolveCommands(Console\Commands\CartCleanup::class);
+	        $schedule->command('cart:cleanup')->$schedule_frequency();	        
+        });
 	}
 
 

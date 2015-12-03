@@ -44,14 +44,14 @@ class Cart extends Model
     */
     public function user()
     {
-        return $this->belongsTo(config('cart.user_model'), config('cart.user_model_user_id', null));
+        return $this->belongsTo(config('cart.user_model'));
     }
 
     /**
     * Get the items for the cart.
     */
     public function items(){
-        return $this->hasMany(config('cart.cart_line_model'), config('cart.cart_line_model_cart_id', null));
+        return $this->hasMany(config('cart.cart_line_model'));
     }
 
     public function scopePending($query){
