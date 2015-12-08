@@ -65,7 +65,7 @@ class CartServiceProvider extends ServiceProvider {
 		$events = $this->app['events'];
 		$schedule_frequency = config('cart.schedule_frequency', 'hourly');
 
-        $events->listen('artisan.start', function ($artisan) use($schedule, $schedule_frequency){
+        $events->listen('artisan.start', function (\Illuminate\Console\Application $artisan) use($schedule, $schedule_frequency){
         	$artisan->resolveCommands(Console\Commands\CartCleanup::class);
 	        $schedule->command('cart:cleanup')->$schedule_frequency();	        
         });

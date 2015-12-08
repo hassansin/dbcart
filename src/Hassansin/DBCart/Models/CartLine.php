@@ -111,7 +111,7 @@ class CartLine extends Model
         parent::boot();
 
         //when an item is created
-        static::created(function($line){
+        static::created(function(CartLine $line){
             $cart = $line->getCartInstance() ?: $line->cart;            
             $cart->resetRelations();
 
@@ -121,7 +121,7 @@ class CartLine extends Model
         });
 
         //when an item is updated
-        static::updated(function($line){
+        static::updated(function(CartLine $line){
             $cart = $line->getCartInstance() ?: $line->cart;    
             $cart->resetRelations();
 
@@ -131,7 +131,7 @@ class CartLine extends Model
         });
 
         //when item deleted
-        static::deleted(function($line){            
+        static::deleted(function(CartLine $line){            
             $cart = $line->getCartInstance() ?: $line->cart;    
             $cart->resetRelations();
 
