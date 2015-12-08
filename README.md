@@ -1,4 +1,4 @@
-# DBCart  [![Build Status](https://travis-ci.org/hassansin/dbcart.svg?branch=master)](https://travis-ci.org/hassansin/dbcart)  [![SensioLabsInsight](https://insight.sensiolabs.com/projects/6a094b56-02c1-4aa5-bb36-85a4bf59ca39/mini.png)](https://insight.sensiolabs.com/projects/6a094b56-02c1-4aa5-bb36-85a4bf59ca39)
+# DBCart  [![Build Status](https://travis-ci.org/hassansin/dbcart.svg?branch=master)](https://travis-ci.org/hassansin/dbcart)  
 
 Shopping Cart library for Laravel 5 that uses database instead of sessions to store carts.
 
