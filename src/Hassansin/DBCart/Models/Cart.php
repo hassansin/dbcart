@@ -193,21 +193,10 @@ class Cart extends Model
         parent::boot();
 
         //delete line items
-        static::deleting(function($cart) {
+        static::deleting(function(Cart $cart) {
             $cart->items()->delete();
         });        
-    }
-
-    /**
-     * Copy cart items to another cart [TODO]
-     *
-     */
-    public function copyItemsTo(Cart $cart){
-        if(!$cart->exists){
-            $cart->save();
-        }
-        //$this->items()->update([ $this->items()->getForeignKey() => $cart->{$cart->primaryKey}] );
-    }
+    }    
 
     /**
      * If a change is made to items, then reset lazyloaded relations to reflect new changes

@@ -3,7 +3,6 @@
 namespace Hassansin\DBCart\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CartLine extends Model
 {
@@ -142,3 +141,4 @@ class CartLine extends Model
         });
     }
 }
+
