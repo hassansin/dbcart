@@ -265,6 +265,18 @@ class Cart extends Model
     }
 
     /**
+     * Check if cart is empty
+     *
+     */
+    public function isEmpty(){
+        return $this->items->count() === 0;
+    }
+
+    public function hasItem($where){
+        return !is_null($this->items()->where($where)->first());
+    }
+
+    /**
      * Empties a cart
      *
      */

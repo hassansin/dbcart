@@ -1,7 +1,7 @@
 {
     "name": "hassansin/dbcart",
     "description": "Shopping Cart library for Laravel 5 that uses Database instead of Sessions",
-    "keywords": ["laravel", "cart", "database", "laravel5", "shopping cart"],
+    "keywords": ["laravel", "cart", "database", "laravel5", "shopping-cart", "ecommerce"],
     "homepage": "https://github.com/hassansin/dbcart",
     "license": "MIT",
     "authors": [
@@ -13,6 +13,12 @@
     "require": {
     	"php": ">=5.4.0",
         "illuminate/support": "~5.0"    
+    },
+    "require-dev": {
+        "fzaninotto/faker": "~1.4",
+        "mockery/mockery": "~0.9",
+        "phpunit/phpunit": "~4.0",
+        "orchestra/testbench": "~3.0"
     },
     "autoload": {
         "psr-0": {

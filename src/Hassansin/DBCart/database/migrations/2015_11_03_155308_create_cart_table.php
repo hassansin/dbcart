@@ -14,14 +14,14 @@ class CreateCartTable extends Migration
     {
         Schema::create('cart', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->string('session');
-            $table->string('name');
-            $table->string('status', 20);
-            $table->decimal('total_price');
-            $table->integer('item_count');
-            $table->timestamp('placed_at');
-            $table->timestamp('completed_at');
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->string('session')->nullable();
+            $table->string('name')->default('default');
+            $table->string('status', 20)->default('active');
+            $table->decimal('total_price')->default(0.00);
+            $table->integer('item_count')->default(0);
+            $table->timestamp('placed_at')->nullable();
+            $table->timestamp('completed_at')->nullable();
             $table->timestamps();
 
             $table->index('name');

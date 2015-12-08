@@ -77,7 +77,7 @@ The idea of using singleton cart is that the cart object will be available globa
 #### Add an Item: `$cart->addItem($attributes)`
 
 ```php
-$cart->add([
+$cart->addItem([
     'product_id' => 1,
     'unit_price' => 10.5,
     'quantity' => 1
@@ -99,7 +99,7 @@ $items = $cart->items()->where('quantity', '=>', 2)->get()
 #### Update an Item: `$cart->updateItem($where, $attributes)`
 
 ```php  
-$cart->update([
+$cart->updateItem([
     'id' => 2
 ], [
     'product_id' => 1,
@@ -113,7 +113,7 @@ which is equivalent to `$cart->items()->where($where)->first()->update($attribut
 #### Remove an Item: `$cart->removeItem($where)`
 
 ```php
-$cart->remove([
+$cart->removeItem([
     'id' => 2
 ]); 
 ```
@@ -129,7 +129,7 @@ $cart->clear();
 ```    
 #### Checkout cart: `$cart->checkout()`
 
-This method only updates `status` and `placed_at` column values. 
+This method only updates `status` and `placed_at` column values. `status` is set to `pending`
 
 ```php    
 $cart->checkout();
@@ -196,11 +196,13 @@ The module would run every hour and check of expired carts and delete them. This
 
 #### Other features:
 
-```php
-$cart_user = $cart->user; // get cart user
-$product = $item->product; // get associated product for a cart item
-```
+Get Cart User: `$cart->user`
 
+Get Item Product: `$item->product`
+
+Is Cart Empty: `$cart->isEmpty()`
+
+If an item exists in cart: `$cart->hasItem(['id' => 10])`
 
 ## Extending Cart Model
 It's easy to extend DBCart. You can extend base DBCart model and add your own methods or columns. Follow these steps to extend the cart model:
