@@ -193,7 +193,7 @@ Laravel Task Scheduler comes to the rescue. To enable scheduler just add followi
 
     * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1 
 
-The module would run every hour and check of expired carts and delete them. This won't affect the carts for loggedin users.
+That's it. The module will now check for expired carts in every hour and delete them. This won't affect the carts for loggedin users.
 
 #### Other features:
 
