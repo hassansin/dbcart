@@ -7,7 +7,7 @@ Shopping Cart library for Laravel 5 that uses database instead of sessions to st
 ## Features
 
 * Cart for guest users
-* Cart of logged in users
+* Cart for logged in users
 * Guest Cart is merged with User Cart when logged in
 * Singleton Cart instance to avoid unnecessary database queries. But also possible to avoid signleton cart if needed.
 * Built on top of Eloquent Model, so easily extendable and all eloquent methods can be used.

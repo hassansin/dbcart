@@ -108,12 +108,14 @@ class Cart extends Model
     public static function init($instance_name, $save_on_demand){        
 
         $request = app('request');
-        $sessionId = $request->session()->getId();
+        $sessionId = $request->session()->getId();        
+        $userId = config('cart.user_id');
+
+        if ($userId instanceof \Closure)
+            $userId = $userId();
         
         //if user logged in
-        if(Auth::check()){
-            $userId = Auth::id();
-
+        if( $userId ){
             //get active cart for current user
             $user_cart = static::active()->user()->where('name', $instance_name)->first();
 

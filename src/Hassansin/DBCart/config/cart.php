@@ -49,6 +49,18 @@ return [
 
     'product_model' => App\Product::class,
 
+    /*
+    |--------------------------------------------------------------------------
+    | User Id Closure
+    |--------------------------------------------------------------------------
+    |
+    | Closure to find logged in user id; Return null/false if not logged in
+    |
+    */
+
+    'user_id' => function(){
+        return Auth::id();
+    },
 
     /*
     |--------------------------------------------------------------------------
