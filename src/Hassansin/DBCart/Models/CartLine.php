@@ -90,16 +90,28 @@ class CartLine extends Model
         return number_format($this->getOriginalQuantity() * $this->getOriginalUnitPrice(), 2) ;
     }
 
+    /*
+    * Get the singleton cart of this line item.
+    *
+    */
     public function getCartInstance(){
-        $carts = app('cart_instances');
-        $instance_name = null;
+        $carts = app('cart_instances');        
         foreach ($carts as $name => $cart) {
             if($cart->id === $this->cart_id){
-                $instance_name = $name;
-                break;
+                return $cart;
             }
         }
-        return is_null($instance_name )? $instance_name : app('cart', ['name' => $instance_name]);
+        return null;
+    }
+
+    /*
+    * Move this item to another cart
+    *
+    * @param Cart $cart    
+    */
+    public function moveTo(Cart $cart){
+        $this->delete(); // delete from own cart
+        return $cart->items()->create($this->attributes);
     }
 
     /**
