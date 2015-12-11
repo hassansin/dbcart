@@ -315,7 +315,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/254d8fb8bc9f29cb97e9b4f7e4fc33bea0ddf23c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4f84b9afd3c3c4cf071e83b34dee95663898a4fb",
                 "reference": "254d8fb8bc9f29cb97e9b4f7e4fc33bea0ddf23c",
                 "shasum": ""
             },
@@ -444,7 +444,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/3e97b4659b8057664d0d23b1491493d3501eaad2",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/e5c3dd737167d388983885c7bfe317a2a3db41f2",
                 "reference": "3e97b4659b8057664d0d23b1491493d3501eaad2",
                 "shasum": ""
             },
@@ -1494,7 +1494,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/218e5170839253e86006257a467577794324e6f8",
+                "url": "https://api.github.com/repos/symfony/process/zipball/9926fbbc8881813ad3062b516e6da7f0e89670e1",
                 "reference": "218e5170839253e86006257a467577794324e6f8",
                 "shasum": ""
             },
@@ -2065,7 +2065,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/3728a504e9162daec076d682351598646c7535f6",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/2ac40a24bd44ecd30494766ebe38d7a51cd4f353",
                 "reference": "3728a504e9162daec076d682351598646c7535f6",
                 "shasum": ""
             },
@@ -2176,7 +2176,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/826f28f4cd17b31e4d42aa21729e52f88d91bc39",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/e871a2a0cf62b56c36b4781e99b50c6bf08fab77",
                 "reference": "826f28f4cd17b31e4d42aa21729e52f88d91bc39",
                 "shasum": ""
             },
@@ -2476,7 +2476,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/83498fee4d9272cc5c59630cc2be939accdcc74b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9c7c323ec2b9027600ca2df4a5bbeda91e2e9dba",
                 "reference": "83498fee4d9272cc5c59630cc2be939accdcc74b",
                 "shasum": ""
             },
@@ -2668,7 +2668,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/2b0112e42c338afa9ad9dfeb94d66f6d84c2f828",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/13edfd8706462032c2f52b4b862974dd46b71c9e",
                 "reference": "2b0112e42c338afa9ad9dfeb94d66f6d84c2f828",
                 "shasum": ""
             },
