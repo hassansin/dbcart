@@ -281,6 +281,7 @@ class Cart extends Model
     /**
      * Move Items to another cart instance
      *
+     * @param Cart $cart
      */
     public function moveItemsTo(Cart $cart){
         $this->items()->update(['cart_id' => $cart->id] );                    

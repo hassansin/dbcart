@@ -136,6 +136,31 @@ This method only updates `status` and `placed_at` column values. `status` is set
 $cart->checkout();
 ```
 
+#### Move item(s) between carts:
+
+To move all items from one cart to another cart instance:
+
+```php
+$cart = app('cart');
+$wishlist = app('cart', ['name' => 'wishlist']);
+
+//move all wishlist items to cart
+$wishlist->moveItemsTo($cart);
+```
+
+To move a single item between carts:
+
+```php
+$cart = app('cart');
+$wishlist = app('cart', ['name' => 'wishlist']);
+
+//move an wishlist item to cart
+$item = $wishlist->items()->where(['product_id' => 1])->first();
+$item->moveTo($cart);
+
+```
+
+
 #### Get Cart Attributes
 
 ```php

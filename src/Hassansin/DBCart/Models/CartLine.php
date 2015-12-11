@@ -104,6 +104,16 @@ class CartLine extends Model
         return null;
     }
 
+    /*
+    * Move this item to another cart
+    *
+    * @param Cart $cart    
+    */
+    public function moveTo(Cart $cart){
+        $this->delete(); // delete from own cart
+        return $cart->items()->create($this->attributes);
+    }
+
     /**
      * The "booting" method of the model.
      *
@@ -131,7 +141,7 @@ class CartLine extends Model
             $cart->item_count = $cart->item_count - $line->getOriginalQuantity() + $line->quantity;
             $cart->save();
         });
-        
+
         //when item deleted
         static::deleted(function(CartLine $line){            
             $cart = $line->getCartInstance() ?: $line->cart;    
