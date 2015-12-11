@@ -228,7 +228,7 @@ It's easy to extend DBCart. You can extend base DBCart model and add your own me
         
     }
     ```
-2. Update `cart_model` in `config/cart.php`
+2. Update `cart_model` in `config/cart.php` with the fully qualified class name of the extended model.
   
     ```php
     'cart_model' => App\Cart::class,

@@ -2,7 +2,6 @@
 
 namespace Hassansin\DBCart\Models;
 
-use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -75,7 +74,9 @@ class Cart extends Model
     }
 
     public function scopeUser($query, $user_id = null){
-        $user_id = $user_id ?: Auth::id();
+        $user_id = $user_id ?: config('cart.user_id');
+        if ($user_id instanceof \Closure)
+            $user_id = $user_id();
         return $query->where('user_id', $user_id);
     }
 
@@ -108,26 +109,24 @@ class Cart extends Model
     public static function init($instance_name, $save_on_demand){        
 
         $request = app('request');
-        $sessionId = $request->session()->getId();        
-        $userId = config('cart.user_id');
+        $session_id = $request->session()->getId();        
+        $user_id = config('cart.user_id');
 
-        if ($userId instanceof \Closure)
-            $userId = $userId();
-        
+        if ($user_id instanceof \Closure)
+            $user_id = $user_id();
+
         //if user logged in
-        if( $userId ){
-            //get active cart for current user
+        if( $user_id ){
             $user_cart = static::active()->user()->where('name', $instance_name)->first();
 
-            //check if session cart exists
             $session_cart_id = $request->session()->get('cart_'.$instance_name);
             $session_cart = is_null($session_cart_id)? null: static::active()->session($session_cart_id)->where('name', $instance_name)->first();
 
             switch (true) {
-                //no user cart or session cart
-                case is_null($user_cart) && is_null($session_cart):
+                
+                case is_null($user_cart) && is_null($session_cart): //no user cart or session cart
                     $attributes = array(
-                        'user_id' => $userId,
+                        'user_id' => $user_id,
                         'name' => $instance_name,
                         'status' => 'active'
                     );
@@ -137,40 +136,32 @@ class Cart extends Model
                         $cart = static::create($attributes);
 
                     break;
-                //only user cart
-                case !is_null($user_cart) && is_null($session_cart):
+                
+                case !is_null($user_cart) && is_null($session_cart): //only user cart
                     $cart = $user_cart;
                     break;
-                //only session cart
-                case is_null($user_cart) && !is_null($session_cart):
+                
+                case is_null($user_cart) && !is_null($session_cart): //only session cart
                     $cart = $session_cart;
-                    $cart->user_id = $userId;
+                    $cart->user_id = $user_id;
                     $cart->session = null;
                     $cart->save(); 
                     break;
-                //both user cart and session cart exists
-                case !is_null($user_cart) && !is_null($session_cart):
+                
+                case !is_null($user_cart) && !is_null($session_cart): //both user cart and session cart exists                   
+                    $session_cart->moveItemsTo($user_cart); //move items from session cart to user cart  
+                    $session_cart->delete(); //delete session cart
                     $cart = $user_cart;
-                    //move items from session cart to user cart                    
-                    $session_cart->items()->update(['cart_id' => $user_cart->id] );                    
-                    $cart->item_count += $session_cart->item_count;
-                    $cart->total_price += $session_cart->total_price;
-                    //delete session cart
-                    $cart->save();
-                    $session_cart->delete();
-                    break;
-                default:
-                    # code...
                     break;
             }            
-            //no longer need it.
-            $request->session()->forget('cart_'.$instance_name);
+            
+            $request->session()->forget('cart_'.$instance_name); //no longer need it.
             return $cart;      
         } 
         //guest user, create cart with session id
         else{
             $attributes = array(
-                'session' => $sessionId,
+                'session' => $session_id,
                 'name' => $instance_name,
                 'status' => 'active'
             );
@@ -181,7 +172,7 @@ class Cart extends Model
 
             //save current session id, since upon login session id will be regenerated
             //we will use this id to get back the cart before login
-            $request->session()->put('cart_'.$instance_name, $sessionId);
+            $request->session()->put('cart_'.$instance_name, $session_id);
             return $cart;
         }
     }
@@ -256,6 +247,14 @@ class Cart extends Model
     }
 
     /**
+     * Set a cart as complete
+     *
+     */
+    public function complete(){
+        return $this->update('status', 'complete');
+    }
+
+    /**
      * Check if cart is empty
      *
      */
@@ -278,6 +277,22 @@ class Cart extends Model
         $this->item_count = 0;
         return $this->save();        
     }
+
+    /**
+     * Move Items to another cart instance
+     *
+     */
+    public function moveItemsTo(Cart $cart){
+        $this->items()->update(['cart_id' => $cart->id] );                    
+        $cart->item_count += $this->item_count;
+        $cart->total_price += $this->total_price;
+        $cart->save();
+
+        $this->item_count = 0;
+        $this->total_price = 0;
+        return $this->save();
+    }
+    
 
 }
 
