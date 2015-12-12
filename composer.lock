@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5134809a5b19ffa03df52dd1de779f7b",
+    "hash": "50f1c5ea5396f1f8a45a5bb892b62f01",
+    "content-hash": "145068365e1b2b67ed1ed0713358065d",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1245,7 +1246,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/97e256823716ab54d034c35ffa6cd64e3e3d8c33",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/6219f2df4de3b93d8a59c813755100f85e26a732",
                 "reference": "97e256823716ab54d034c35ffa6cd64e3e3d8c33",
                 "shasum": ""
             },
