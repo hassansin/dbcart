@@ -134,7 +134,9 @@ This method only updates `status` and `placed_at` column values. `status` is set
 
 ```php    
 $cart->checkout();
+
 ```
+
 
 #### Move item(s) between carts:
 
@@ -174,7 +176,7 @@ Supports several cart statuses:
 * `active`: currently adding items to the cart
 * `expired`: cart is expired, meaningful for session carts
 * `pending`: checked out carts 
-* `complete`: completed carts 
+* `completed`: completed carts 
 
 ```php
 use Hassansin\DBCart\Models\Cart;
@@ -183,7 +185,7 @@ use Hassansin\DBCart\Models\Cart;
 $active_carts = Cart::active()->get();
 $expired_carts = Cart::expired()->get();
 $pending_carts = Cart::pending()->get();
-$completed_carts = Cart::complete()->get();
+$completed_carts = Cart::completed()->get();
 ```
 #### Working with Multiple Cart Instances
 
@@ -229,6 +231,11 @@ Get Item Product: `$item->product`
 Is Cart Empty: `$cart->isEmpty()`
 
 If an item exists in cart: `$cart->hasItem(['id' => 10])`
+
+Expire the cart: `cart->expire();`
+
+Set to `completed` status: `$cart->complete();`
+```
 
 ## Extending Cart Model
 It's easy to extend DBCart. You can extend base DBCart model and add your own methods or columns. Follow these steps to extend the cart model:

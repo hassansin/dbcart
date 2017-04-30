@@ -243,7 +243,7 @@ class Cart extends Model
      *
      */
     public function expire(){
-        return $this->update('status', 'expired');
+        return $this->update(['status' => 'expired']);
     }
 
     /**
@@ -251,7 +251,7 @@ class Cart extends Model
      *
      */
     public function complete(){
-        return $this->update('status', 'complete');
+        return $this->update(['status' => 'complete', 'completed_at' => Carbon::now()]);
     }
 
     /**
