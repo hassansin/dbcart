@@ -78,7 +78,7 @@ class CartLine extends Model
     * @return float
     */
     public function getPrice(){
-        return number_format($this->quantity * $this->unit_price, 2) ;
+        return $this->quantity * $this->unit_price;
     }
 
     /*
@@ -87,7 +87,7 @@ class CartLine extends Model
     * @return integer
     */
     public function getOriginalPrice(){
-        return number_format($this->getOriginalQuantity() * $this->getOriginalUnitPrice(), 2) ;
+        return $this->getOriginalQuantity() * $this->getOriginalUnitPrice();
     }
 
     /*

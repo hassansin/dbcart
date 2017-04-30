@@ -86,7 +86,7 @@ class Cart extends Model
     }
 
     public function setTotalPriceAttribute($value){
-        $this->attributes['total_price'] = number_format($value, 2) > 0 ? number_format($value, 2) : 0;        
+        $this->attributes['total_price'] = $value;
     }
 
     /**
@@ -97,7 +97,7 @@ class Cart extends Model
      */
     public static function current($instance_name = 'default', $save_on_demand = null){
         $save_on_demand = is_null($save_on_demand)? config('cart.save_on_demand', false): $save_on_demand;
-        return static::init($instance_name, $save_on_demand);       
+        return static::init($instance_name, $save_on_demand);
     }
 
     /**
