@@ -235,7 +235,7 @@ If an item exists in cart: `$cart->hasItem(['id' => 10])`
 Expire the cart: `cart->expire();`
 
 Set to `completed` status: `$cart->complete();`
-```
+
 
 ## Extending Cart Model
 It's easy to extend DBCart. You can extend base DBCart model and add your own methods or columns. Follow these steps to extend the cart model:
