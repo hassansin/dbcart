@@ -29,7 +29,7 @@
     "extra":{
       "laravel":{
          "providers":[
-            "Hassansin\\DBCart\\CartServiceProvider::class"
+            "Hassansin\\DBCart\\CartServiceProvider"
          ]
       }
    }
