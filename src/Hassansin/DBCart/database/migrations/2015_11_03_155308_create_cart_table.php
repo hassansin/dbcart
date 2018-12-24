@@ -26,7 +26,7 @@ class CreateCartTable extends Migration
 
             $table->index('name');
             $table->index(['user_id', 'status']);
-            $table->index(['session','status']);            
+            $table->index(['session','status']);
         });
     }
 

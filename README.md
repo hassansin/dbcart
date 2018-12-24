@@ -1,4 +1,4 @@
-# DBCart  [![Build Status](https://travis-ci.org/hassansin/dbcart.svg?branch=master)](https://travis-ci.org/hassansin/dbcart)  [![SensioLabsInsight](https://insight.sensiolabs.com/projects/97876df8-6a51-4da1-92f3-14ebe544c4d9/mini.png?v=1)](https://insight.sensiolabs.com/projects/97876df8-6a51-4da1-92f3-14ebe544c4d9)
+# DBCart  [![Build Status](https://travis-ci.org/hassansin/dbcart.svg?branch=master)](https://travis-ci.org/hassansin/dbcart)  [![SensioLabsInsight](https://insight.sensiolabs.com/projects/97876df8-6a51-4da1-92f3-14ebe544c4d9/mini.png?v=1)](https://insight.sensiolabs.com/projects/97876df8-6a51-4da1-92f3-14ebe544c4d9)  [![codecov](https://codecov.io/gh/hassansin/dbcart/branch/master/graph/badge.svg)](https://codecov.io/gh/hassansin/dbcart)
 
 Shopping Cart library for Laravel 5 that uses database instead of sessions to store carts.
 
@@ -94,7 +94,7 @@ Since `$cart` is eloquent model instance, you can use any of the eloquent method
 ```php
 $items = $cart->items // by dynamic property access
 $items = $cart->items()->get()  
-$items = $cart->items()->where('quantity', '=>', 2)->get()
+$items = $cart->items()->where('quantity', '>=', 2)->get()
 ```
 
 #### Update an Item: `$cart->updateItem($where, $attributes)`

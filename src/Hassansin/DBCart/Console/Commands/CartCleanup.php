@@ -51,8 +51,12 @@ class CartCleanup extends Command
         }
 
         //delete expired carts
-        if(config('cart.delete_expired', false)){            
+        if(config('cart.delete_expired', false)){
             $cart_model = config('cart.cart_model');
+            $cart_line_model = config('cart.cart_line_model');
+            $cart_ids = $cart_model::where('status','expired')->pluck('id');
+
+            $cart_line_model::whereIn('cart_id', $cart_ids->toArray())->delete();
             $cart_model::where('status','expired')->delete();
         }
     }

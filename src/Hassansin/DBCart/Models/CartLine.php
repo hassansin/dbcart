@@ -34,11 +34,15 @@ class CartLine extends Model
      * @var array
      */
     protected $casts = [
+        'cart_id' => 'int',
+        'product_id' => 'int',
+        'quantity' => 'int',
         'unit_price' => 'float',
     ];
 
     /**
     * Get the product record associated with the item.
+    * @codeCoverageIgnore
     */
     public function product()
     {
@@ -95,7 +99,7 @@ class CartLine extends Model
     *
     */
     public function getCartInstance(){
-        $carts = app('cart_instances');        
+        $carts = app('cart_instances');
         foreach ($carts as $name => $cart) {
             if($cart->id === $this->cart_id){
                 return $cart;
@@ -107,11 +111,17 @@ class CartLine extends Model
     /*
     * Move this item to another cart
     *
-    * @param Cart $cart    
+    * @param Cart $cart
     */
     public function moveTo(Cart $cart){
-        $this->delete(); // delete from own cart
-        return $cart->items()->create($this->attributes);
+        $model = null;
+        \DB::transaction(function () use($cart, &$model) {
+            $this->delete(); // delete from own cart
+            $attr = $this->attributes;
+            unset($attr['cart_id']);
+            $model = $cart->items()->create($attr);
+        });
+        return $model;
     }
 
     /**
@@ -124,31 +134,27 @@ class CartLine extends Model
 
         //when an item is created
         static::created(function(CartLine $line){
-            $cart = $line->getCartInstance() ?: $line->cart;            
-            $cart->resetRelations();
-
+            $cart = $line->getCartInstance() ?: $line->cart;
             $cart->total_price = $cart->total_price + $line->getPrice();
             $cart->item_count = $cart->item_count + $line->quantity;
+            $cart->relations = [];
             $cart->save();
         });
 
         //when an item is updated
         static::updated(function(CartLine $line){
-            $cart = $line->getCartInstance() ?: $line->cart;    
-            $cart->resetRelations();
-
+            $cart = $line->getCartInstance() ?: $line->cart;
             $cart->total_price = $cart->total_price - $line->getOriginalPrice() + $line->getPrice();
             $cart->item_count = $cart->item_count - $line->getOriginalQuantity() + $line->quantity;
+            $cart->relations = [];
             $cart->save();
         });
 
-        //when item deleted
-        static::deleted(function(CartLine $line){            
-            $cart = $line->getCartInstance() ?: $line->cart;    
-            $cart->resetRelations();
-
+        static::deleted(function(CartLine $line){
+            $cart = $line->getCartInstance() ?: $line->cart;
             $cart->total_price = $cart->total_price - $line->getPrice();
             $cart->item_count = $cart->item_count - $line->quantity;
+            $cart->relations = [];
             $cart->save();
         });
     }
